@@ -58,6 +58,7 @@ unsigned short getADC(int channel)
 channel &= 0b00000111;  // AND operation with 7
 ADMUX = (ADMUX & 0xF8)|channel;     // clears the bottom 3 bits before ORing
 
+//test
 // start single conversion
 // write '1' to ADSC
 ADCSRA |= (1<<ADSC);
