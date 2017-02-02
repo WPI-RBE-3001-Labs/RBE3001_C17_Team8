@@ -10,6 +10,7 @@
 //testimundo
 
 #include "RBELib/RBELib.h" //RBELib
+#include "Kinematics.h"
 
 volatile uint8_t tot_overflow;
 unsigned int change = 0x00;
@@ -203,6 +204,7 @@ int main(void){
 //			setDAC(1,1000);
 			readLinkAngles();
 			gotoAngles(setPoint,0);
+
 			//driveLink(0,-2000);
 
 	//	swagToothWave(0,1); //triangle on 0 and 1 channels DAC
