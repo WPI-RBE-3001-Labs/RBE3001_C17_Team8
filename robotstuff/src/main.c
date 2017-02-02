@@ -2,7 +2,7 @@
  * main.c
  *
  *  Created on: Jan 21, 2017
- *      Author: Joe Lombardi
+ *      Author: Joe Lombardi, and not Will
  */
 
 //Billy Added This
