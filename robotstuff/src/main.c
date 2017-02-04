@@ -207,6 +207,11 @@ int main(void){
 
 			//driveLink(0,-2000);
 
+			double *p;
+
+			p = getPos(potAngle(2), potAngle(3));
+			printf("%f, %f\n" ,*(p+0), *(p+1));
+
 	//	swagToothWave(0,1); //triangle on 0 and 1 channels DAC
 	//	printf("help me");
 
