@@ -166,7 +166,7 @@ int main(void){
 	initSPI();
 
 	setConst(0, 300, 0.08, 0.02);
-	setConst(1, 240, 0.01, 0.05);//I don't want it to run right now, set to 0
+	setConst(1, 270, 0.01, 0.05);//I don't want it to run right now, set to 0
 
 	int setPoint = 0;
 	int setPoint2 = 0;
