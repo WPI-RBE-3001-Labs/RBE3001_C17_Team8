@@ -15,15 +15,19 @@ double link1 = 152.4;
 double link2 = 124;
 double yOffset = 142.4;
 
+double degToRad(double ang)
+{
+	return ang*(M_PI/180);
+}
 
 double * getPos(int theta1, int theta2)
 		
 {
 		static double point[2];
 		 
-		point[0] = cos(theta1*(3.14/180))*link1 + cos((theta1 + theta2)*(3.14/180))*link2;  				//Calculate X position
-		point[1] = sin(theta1*(3.14/180))*link1 + sin((theta1 + theta2)*(3.14/180))*link2 + yOffset;		//Calculate Y position
+		point[0] = cos(degToRad(theta1))*link1 + cos(degToRad(theta1 + theta2))*link2;  				//Calculate X position
+		point[1] = sin(degToRad(theta1))*link1 + sin(degToRad(theta1 + theta2))*link2 + yOffset;		//Calculate Y position
 		
-		return point; //Return array containing the X Y position of the end of arm 
+		return point; //Return memory location containing the X Y position of the end of arm 
 		
 }

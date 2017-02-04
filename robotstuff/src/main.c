@@ -105,7 +105,7 @@ void swagToothWave(int channel1, int channel2){
 void readLinkAngles(void){
 	int get2 = potAngle(3);
 	int get = potAngle(2);
-	printf("%d,%d\n\r",get,get2);
+	printf(", %d, %d\r",get,get2);
 
 }
 
@@ -166,7 +166,7 @@ int main(void){
 	initSPI();
 
 	setConst(0, 300, 0.08, 0.02);
-	setConst(1, 270, 0.01, 0.05);//I don't want it to run right now, set to 0
+	setConst(1, 100, 0.1, 0.02);//I don't want it to run right now, set to 0
 
 	int setPoint = 0;
 	int setPoint2 = 0;
@@ -182,16 +182,26 @@ int main(void){
 	while(1){
 		if(PINBbits._P0 == LOW){
 			setPoint = 0;
-			setPoint2 = 30;
+			setPoint2 = 0;
+			gotoAngles(setPoint,setPoint2);
 		} else if(PINBbits._P1 == LOW){
-			setPoint = 30;
+			setPoint = 10;
 			setPoint2 = -30;
+			gotoAngles(setPoint,setPoint2);
+			setPoint = 20;
+			setPoint2 = -60;
+			gotoAngles(setPoint,setPoint2);
+			setPoint = 35;
+			setPoint2 = -90;
+			gotoAngles(setPoint,setPoint2);
+
 		} else if(PINBbits._P2 == LOW){
-			setPoint = 60;
+			setPoint = 35;
 			setPoint2 = -60;
 		} else if(PINBbits._P3 == LOW){
-			setPoint = 90;
-			setPoint2 = -90;
+			//setPoint = 70;
+			//setPoint2 = -90;
+			gotoAngles(setPoint,setPoint2);
 		}
 
 
@@ -203,11 +213,11 @@ int main(void){
 
 
 		if(tot_overflow>0){//make a scheduler, check if overflowed
-		//	stopMotors();
+//			stopMotors();
 			//readThatAmperage(0);
 //			setDAC(0,0);
 //			setDAC(1,1000);
-			readLinkAngles();
+//			readLinkAngles();
 			gotoAngles(setPoint,setPoint2);
 
 			//driveLink(0,-2000);
@@ -215,7 +225,7 @@ int main(void){
 			double *p;
 
 			p = getPos(potAngle(2), potAngle(3));
-			printf("%f, %f\n" ,*(p+0), *(p+1));
+			printf("%d, %d, %f, %f \n\r" ,potAngle(2), potAngle(3),  *(p+0), *(p+1));
 
 	//	swagToothWave(0,1); //triangle on 0 and 1 channels DAC
 	//	printf("help me");
