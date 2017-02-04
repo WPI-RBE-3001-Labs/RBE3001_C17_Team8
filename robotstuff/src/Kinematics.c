@@ -11,9 +11,9 @@
 
 
 // variables are in inches, should be in mm
-double link1 = 6;
-double link2 = 5.5;
-double yOffset = 5.625;
+double link1 = 152.4;
+double link2 = 124;
+double yOffset = 142.4;
 
 
 double * getPos(int theta1, int theta2)
