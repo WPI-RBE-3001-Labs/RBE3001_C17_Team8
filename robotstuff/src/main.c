@@ -165,10 +165,11 @@ int main(void){
 
 	initSPI();
 
-	setConst(0, 350, 0.08, 0.05);
-	setConst(1, 0, 0.00, 0.0);//I don't want it to run right now, set to 0
+	setConst(0, 300, 0.08, 0.02);
+	setConst(1, 270, 0.01, 0.05);//I don't want it to run right now, set to 0
 
 	int setPoint = 0;
+	int setPoint2 = 0;
 //	int volts = 0;
 //	int current = 0;
 
@@ -181,12 +182,16 @@ int main(void){
 	while(1){
 		if(PINBbits._P0 == LOW){
 			setPoint = 0;
+			setPoint2 = 30;
 		} else if(PINBbits._P1 == LOW){
 			setPoint = 30;
+			setPoint2 = -30;
 		} else if(PINBbits._P2 == LOW){
 			setPoint = 60;
+			setPoint2 = -60;
 		} else if(PINBbits._P3 == LOW){
 			setPoint = 90;
+			setPoint2 = -90;
 		}
 
 
@@ -203,7 +208,7 @@ int main(void){
 //			setDAC(0,0);
 //			setDAC(1,1000);
 			readLinkAngles();
-			gotoAngles(setPoint,0);
+			gotoAngles(setPoint,setPoint2);
 
 			//driveLink(0,-2000);
 
