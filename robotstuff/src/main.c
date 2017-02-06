@@ -165,8 +165,10 @@ int main(void){
 
 	initSPI();
 
-	setConst(0, 300, 0.08, 0.02);
-	setConst(1, 100, 0.1, 0.02);//I don't want it to run right now, set to 0
+	setConst(0, 200, 0.5, 0.1);
+	setConst(1, 200, 0.5, 0.1);//I don't want it to run right now, set to 0
+
+	int state = 1;
 
 	int setPoint = 0;
 	int setPoint2 = 0;
@@ -183,25 +185,64 @@ int main(void){
 		if(PINBbits._P0 == LOW){
 			setPoint = 0;
 			setPoint2 = 0;
-			gotoAngles(setPoint,setPoint2);
+			state = 1;
+			//gotoAngles(setPoint,setPoint2);
 		} else if(PINBbits._P1 == LOW){
-			setPoint = 10;
-			setPoint2 = -30;
-			gotoAngles(setPoint,setPoint2);
-			setPoint = 20;
-			setPoint2 = -60;
-			gotoAngles(setPoint,setPoint2);
-			setPoint = 35;
-			setPoint2 = -90;
-			gotoAngles(setPoint,setPoint2);
-
+			//setPoint = 10;
+			//setPoint2 = -30;
 		} else if(PINBbits._P2 == LOW){
-			setPoint = 35;
-			setPoint2 = -60;
+			//setPoint = 35;
+			//setPoint2 = -60;
 		} else if(PINBbits._P3 == LOW){
 			//setPoint = 70;
 			//setPoint2 = -90;
-			gotoAngles(setPoint,setPoint2);
+			//gotoAngles(setPoint,setPoint2);
+		}
+
+		switch (state)
+		{
+			case 1:
+				setPoint = 0;
+				setPoint2 = 0;
+		//		printf("point 0 reached!");
+				break;
+			case 2:
+				setPoint = 0;
+				setPoint2 = -5;
+				break;
+			case 3:
+				setPoint = 20;
+				setPoint2 = -45;
+				break;
+			case 4:
+				setPoint = 18;
+				setPoint2 = -50;
+				break;
+			case 5:
+				setPoint = 35;
+				setPoint2 = -90;
+			//	printf("point 1 reached!");
+				break;
+			case 6:
+				setPoint = 35;
+				setPoint2 = -75;
+		//		printf("point 2 reached!");
+				break;
+			case 7:
+				setPoint = 35;
+				setPoint2 = -60;
+				break;
+			case 8:
+				setPoint = 15;
+				setPoint2 = -30;
+				break;
+			case 9:
+				state = 1;
+		}
+
+		if(potAngle(2)==setPoint && potAngle(3)==setPoint2)
+		{
+			state++;
 		}
 
 
@@ -225,7 +266,8 @@ int main(void){
 			double *p;
 
 			p = getPos(potAngle(2), potAngle(3));
-			printf("%d, %d, %f, %f \n\r" ,potAngle(2), potAngle(3),  *(p+0), *(p+1));
+			printf("%d %d %f %f\n\r" ,potAngle(2), potAngle(3), *(p+0), *(p+1));// Code that publishes to matlab
+			//printf("%d, %d, %f, %f \n\r" ,potAngle(2), potAngle(3),  *(p+0), *(p+1));
 
 	//	swagToothWave(0,1); //triangle on 0 and 1 channels DAC
 	//	printf("help me");
