@@ -165,8 +165,8 @@ int main(void){
 
 	initSPI();
 
-	setConst(0, 200, 0.5, 0.1);
-	setConst(1, 200, 0.5, 0.1);//I don't want it to run right now, set to 0
+	setConst(0, 300, 0.5, 0.5);
+	setConst(1, 200, 0.5, 0.5);//I don't want it to run right now, set to 0
 
 	int state = 1;
 
@@ -266,7 +266,7 @@ int main(void){
 			double *p;
 
 			p = getPos(potAngle(2), potAngle(3));
-			printf("%d %d %f %f\n\r" ,potAngle(2), potAngle(3), *(p+0), *(p+1));// Code that publishes to matlab
+			printf(" %d %d %f %f \n\r" ,potAngle(2), potAngle(3), *(p+0), *(p+1));// Code that publishes to matlab
 			//printf("%d, %d, %f, %f \n\r" ,potAngle(2), potAngle(3),  *(p+0), *(p+1));
 
 	//	swagToothWave(0,1); //triangle on 0 and 1 channels DAC
