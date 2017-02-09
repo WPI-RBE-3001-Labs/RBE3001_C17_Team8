@@ -199,51 +199,51 @@ int main(void){
 			//gotoAngles(setPoint,setPoint2);
 		}
 
-		switch (state)
-		{
-			case 1:
-				setPoint = 0;
-				setPoint2 = 0;
-		//		printf("point 0 reached!");
-				break;
-			case 2:
-				setPoint = 0;
-				setPoint2 = -5;
-				break;
-			case 3:
-				setPoint = 20;
-				setPoint2 = -45;
-				break;
-			case 4:
-				setPoint = 18;
-				setPoint2 = -50;
-				break;
-			case 5:
-				setPoint = 35;
-				setPoint2 = -90;
-			//	printf("point 1 reached!");
-				break;
-			case 6:
-				setPoint = 35;
-				setPoint2 = -75;
-		//		printf("point 2 reached!");
-				break;
-			case 7:
-				setPoint = 35;
-				setPoint2 = -60;
-				break;
-			case 8:
-				setPoint = 15;
-				setPoint2 = -30;
-				break;
-			case 9:
-				state = 1;
-		}
-
-		if(potAngle(2)==setPoint && potAngle(3)==setPoint2)
-		{
-			state++;
-		}
+//		switch (state)
+//		{
+//			case 1:
+//				setPoint = 0;
+//				setPoint2 = 0;
+//		//		printf("point 0 reached!");
+//				break;
+//			case 2:
+//				setPoint = 0;
+//				setPoint2 = -5;
+//				break;
+//			case 3:
+//				setPoint = 20;
+//				setPoint2 = -45;
+//				break;
+//			case 4:
+//				setPoint = 18;
+//				setPoint2 = -50;
+//				break;
+//			case 5:
+//				setPoint = 35;
+//				setPoint2 = -90;
+//			//	printf("point 1 reached!");
+//				break;
+//			case 6:
+//				setPoint = 35;
+//				setPoint2 = -75;
+//		//		printf("point 2 reached!");
+//				break;
+//			case 7:
+//				setPoint = 35;
+//				setPoint2 = -60;
+//				break;
+//			case 8:
+//				setPoint = 15;
+//				setPoint2 = -30;
+//				break;
+//			case 9:
+//				state = 1;
+//		}
+//
+//		if(potAngle(2)==setPoint && potAngle(3)==setPoint2)
+//		{
+//			state++;
+//		}
 
 
 //		matLabDataCollect();
@@ -253,20 +253,20 @@ int main(void){
 //		setDAC(3,4095);
 
 
-		if(tot_overflow>0){//make a scheduler, check if overflowed
-//			stopMotors();
+		if(tot_overflow>30){//make a scheduler, check if overflowed
+			stopMotors();
 			//readThatAmperage(0);
-//			setDAC(0,0);
-//			setDAC(1,1000);
+//			setDAC(1,0);
+//			setDAC(0,4095);
 //			readLinkAngles();
-			gotoAngles(setPoint,setPoint2);
+			//gotoAngles(setPoint,setPoint2);
 
 			//driveLink(0,-2000);
 
 			double *p;
 
 			p = getPos(potAngle(2), potAngle(3));
-			printf(" %d %d %f %f \n\r" ,potAngle(2), potAngle(3), *(p+0), *(p+1));// Code that publishes to matlab
+			printf("%f, %f\r\n",*(p+0), *(p+1));// Code that publishes to matlab
 			//printf("%d, %d, %f, %f \n\r" ,potAngle(2), potAngle(3),  *(p+0), *(p+1));
 
 	//	swagToothWave(0,1); //triangle on 0 and 1 channels DAC
