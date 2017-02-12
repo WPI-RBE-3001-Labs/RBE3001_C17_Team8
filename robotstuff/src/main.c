@@ -12,6 +12,7 @@
 #include "RBELib/RBELib.h" //RBELib
 #include "Kinematics.h"
 
+
 volatile uint8_t tot_overflow;
 unsigned int change = 0x00;
 
@@ -36,6 +37,7 @@ void initTC0(){
 	tot_overflow = 0; //total amounts of overflows initialized to 0
 
 	sei(); //enable global interrupts
+
 
 }
 
@@ -160,10 +162,12 @@ int main(void){
 
 	initADC(1);//current sensor 1
 	initADC(3);// potentiometer 1
+	initADC(4);
 
 	debugUSARTInit(DEFAULT_BAUD);
 
 	initSPI();
+	encInit(0);
 
 	setConst(0, 300, 0.5, 0.5);
 	setConst(1, 200, 0.5, 0.5);//I don't want it to run right now, set to 0
@@ -188,9 +192,10 @@ int main(void){
 			state = 1;
 			//gotoAngles(setPoint,setPoint2);
 		} else if(PINBbits._P1 == LOW){
-			//setPoint = 10;
+			setPoint = 90;
 			//setPoint2 = -30;
 		} else if(PINBbits._P2 == LOW){
+			resetEncCount(0);
 			//setPoint = 35;
 			//setPoint2 = -60;
 		} else if(PINBbits._P3 == LOW){
@@ -259,15 +264,18 @@ int main(void){
 //			setDAC(1,0);
 //			setDAC(0,4095);
 //			readLinkAngles();
-			//gotoAngles(setPoint,setPoint2);
+			gotoAngles(setPoint,setPoint2);
 
 			//driveLink(0,-2000);
 
 			double *p;
 
 			p = getPos(potAngle(2), potAngle(3));
-			printf("%f, %f\r\n",*(p+0), *(p+1));// Code that publishes to matlab
+			//printf("%f, %f\r\n",*(p+0), *(p+1));// Code that publishes to matlab
 			//printf("%d, %d, %f, %f \n\r" ,potAngle(2), potAngle(3),  *(p+0), *(p+1));
+			//printf("%d\n\r", getADC(1));
+			printf("%ld, %i, %i, %i, %d\n\r", encCount(1), getAccel(0), getAccel(1), getAccel(2), getAccel(0)-  getAccel(1));
+			//printf("%i, %i\n\r", getAccel(0), (encCount(0)/(15136/360)));
 
 	//	swagToothWave(0,1); //triangle on 0 and 1 channels DAC
 	//	printf("help me");
