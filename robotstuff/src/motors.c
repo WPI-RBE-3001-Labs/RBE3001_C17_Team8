@@ -65,3 +65,20 @@ void gotoAngles(int lowerTheta, int upperTheta){
 	driveLink(1, -onePID);
 
 	}
+
+void homePos(){
+ //function puts the robot in horizontal position, and resets encoders
+	unsigned char isNotThere = 1;
+	while(isNotThere){
+		if((0 == potAngle(2)) && (0 == potAngle(3))) //If everything is where it is supposed to be (0)
+		{ //THEN,
+			isNotThere = 0; //It IS there!! Home sweet home.
+		}
+		//else loop until there
+		gotoAngles(0,0); //go to the angles that are 0 and 0
+	}
+	//Now reset encoder, because we are there at home
+	resetEncCount(0);
+	resetEncCount(1);
+}
+

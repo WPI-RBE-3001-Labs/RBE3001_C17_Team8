@@ -189,17 +189,18 @@ int main(void){
 		if(PINBbits._P0 == LOW){
 			setPoint = 0;
 			setPoint2 = 0;
-			state = 1;
+			resetEncCount(1);
+//			state = 1;
 			//gotoAngles(setPoint,setPoint2);
 		} else if(PINBbits._P1 == LOW){
-			setPoint = 90;
+			setPoint = 1024;
 			//setPoint2 = -30;
 		} else if(PINBbits._P2 == LOW){
-			resetEncCount(0);
-			//setPoint = 35;
+			//resetEncCount(0);
+			setPoint = 4095;
 			//setPoint2 = -60;
 		} else if(PINBbits._P3 == LOW){
-			//setPoint = 70;
+			setPoint = -1024;
 			//setPoint2 = -90;
 			//gotoAngles(setPoint,setPoint2);
 		}
@@ -259,23 +260,23 @@ int main(void){
 
 
 		if(tot_overflow>30){//make a scheduler, check if overflowed
-			stopMotors();
-			//readThatAmperage(0);
+//			stopMotors();
+//			readThatAmperage(0);
 //			setDAC(1,0);
 //			setDAC(0,4095);
 //			readLinkAngles();
-			gotoAngles(setPoint,setPoint2);
+//			gotoAngles(setPoint,setPoint2);
 
-			//driveLink(0,-2000);
+			driveLink(1, setPoint);
 
-			double *p;
+//			double *p;
 
-			p = getPos(potAngle(2), potAngle(3));
+			// = getPos(potAngle(2), potAngle(3));
 			//printf("%f, %f\r\n",*(p+0), *(p+1));// Code that publishes to matlab
 			//printf("%d, %d, %f, %f \n\r" ,potAngle(2), potAngle(3),  *(p+0), *(p+1));
-			//printf("%d\n\r", getADC(1));
-			printf("%ld, %i, %i, %i, %d\n\r", encCount(1), getAccel(0), getAccel(1), getAccel(2), getAccel(0)-  getAccel(1));
+			//printf("%ld, %i, %i, %i, %d\n\r", encCount(1), getAccel(0), getAccel(1), getAccel(2), getAccel(0)-  getAccel(1));
 			//printf("%i, %i\n\r", getAccel(0), (encCount(0)/(15136/360)));
+			printf("%i\n\r",encCount(1));
 
 	//	swagToothWave(0,1); //triangle on 0 and 1 channels DAC
 	//	printf("help me");

@@ -28,6 +28,9 @@ signed int getAccel(int axis)
 		//gVal += spiTransceive(0x00);
 		gVal |= spiTransceive(0x00);
 		PORTD |= (1<<6);
+
+		gVal = gVal*0.22;//Function from datasheet of parall
+
 		return (gVal);
 }
 
@@ -108,15 +111,15 @@ signed long encCount(int chan)
 	return cnt;
 }
 
-void selectEncoder(int chan)
+void selectEncoder(int chan) //Function selects encoders, takes input of link
 {
-	if(chan == 0) ENCODER_SS_0 = LOW;
-	else if (chan == 1) ENCODER_SS_1 = LOW;
-	else return;
+	if(chan == 0) ENCODER_SS_0 = LOW; //slave select encoder 0
+	else if (chan == 1) ENCODER_SS_1 = LOW; //OR slave select encoder 1
+	else return; //otherwise return
 }
 
 void disableEncoders()
 {
-	ENCODER_SS_0 = HIGH;
+	ENCODER_SS_0 = HIGH; //disable both slaves by setting high
 	ENCODER_SS_1 = HIGH;
 }
