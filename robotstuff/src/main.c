@@ -123,13 +123,14 @@ int readThatAmperage(int link){
 ISR(TIMER0_OVF_vect)
 {
 	tot_overflow++;
+		PINBbits._P4 = 1; //Sets Port B Pin 4 to high
 }
 
 
 
 
 int main(void){
-//	DDRBbits._P4 = OUTPUT; //Set Port B Pin 4 to output
+	DDRBbits._P4 = OUTPUT; //Set Port B Pin 4 to output
 //	DDRBbits._P0 = OUTPUT;
 //
 //	DDRBbits._P0 = OUTPUT; //Set Port B Pin 4 to output
@@ -177,7 +178,7 @@ int main(void){
 	encInit(0);
 
 	setConst(0, 300, 0.5, 0.5);
-	setConst(1, 200, 0.5, 0.5);//I don't want it to run right now, set to 0
+	setConst(1, 200, 0.5, 0.5);
 
 	int state = 1;
 
