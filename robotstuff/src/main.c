@@ -123,7 +123,7 @@ int readThatAmperage(int link){
 ISR(TIMER0_OVF_vect)
 {
 	tot_overflow++;
-		PINBbits._P4 = 1; //Sets Port B Pin 4 to high
+//		PINBbits._P4 = 1; //Sets Port B Pin 4 to high
 }
 
 
@@ -268,7 +268,7 @@ int main(void){
 
 		printf("%ld, %i, %i, %i\n\r", encCount(1), getAccel(0), getAccel(1), getAccel(2));
 
-		if(tot_overflow>30)
+		if(tot_overflow>2)
 		{//make a scheduler, check if overflowed
 //			stopMotors();
 //			readThatAmperage(0);
@@ -277,7 +277,8 @@ int main(void){
 //			readLinkAngles();
 //			gotoAngles(setPoint,setPoint2);
 
-			driveLink(1, setPoint);
+			//PINBbits._P4 = 1; //Sets Port B Pin 4 to high
+			//driveLink(1, setPoint);
 
 //			double *p;
 
