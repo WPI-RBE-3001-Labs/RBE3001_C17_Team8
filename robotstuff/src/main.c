@@ -153,6 +153,13 @@ int main(void){
 ////	PINBbits._P4 = 1; //Sets Port B Pin 4 to low
 //
 
+
+//	TCCR1B |= (1 << WGM12); // Configure timer 1 for CTC mode
+//	sei(); //  Enable global interrupts
+//	TIMSK1 |= (1 << OCIE1A); // Enable CTC interrupt
+//	OCR1A = (23040); // Set CTC compare value with a prescaler of 8 (100Hz)
+//	TCCR1B |= (1 << CS11); // Start timer at Fcpu/8
+
 	initTC0(); //initialize clock
 
 	initRBELib();// SUPA, IMPORTANT, YOU GOTTA START RBELIB OR ELSE PRINT won WORK
@@ -258,8 +265,10 @@ int main(void){
 //		setDAC(2,3072);
 //		setDAC(3,4095);
 
+		printf("%ld, %i, %i, %i\n\r", encCount(1), getAccel(0), getAccel(1), getAccel(2));
 
-		if(tot_overflow>30){//make a scheduler, check if overflowed
+		if(tot_overflow>30)
+		{//make a scheduler, check if overflowed
 //			stopMotors();
 //			readThatAmperage(0);
 //			setDAC(1,0);
@@ -274,7 +283,7 @@ int main(void){
 			// = getPos(potAngle(2), potAngle(3));
 			//printf("%f, %f\r\n",*(p+0), *(p+1));// Code that publishes to matlab
 			//printf("%d, %d, %f, %f \n\r" ,potAngle(2), potAngle(3),  *(p+0), *(p+1));
-			//printf("%ld, %i, %i, %i, %d\n\r", encCount(1), getAccel(0), getAccel(1), getAccel(2), getAccel(0)-  getAccel(1));
+			printf("%ld, %i, %i, %i, %d\n\r", encCount(1), getAccel(0), getAccel(1), getAccel(2), getAccel(0)-  getAccel(1));
 			//printf("%i, %i\n\r", getAccel(0), (encCount(0)/(15136/360)));
 			printf("%i\n\r",encCount(1));
 
