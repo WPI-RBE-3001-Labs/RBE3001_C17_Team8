@@ -17,21 +17,36 @@
  *
  * @todo Create a function that is able to find the acceleration of a given axis.
  */
-signed int getAccel(int axis)
+signed int getAccel(int axis) //CONNECT SS OF ACCEL TO DDRC P0
 {
-	    DDRDbits._P6 = OUTPUT;
-		signed int gVal = 0;
-		PORTD &= ~(1<<6);
-		spiTransceive(0b00000110);
-		gVal = spiTransceive((axis << 6));
-		gVal = (gVal & 0x0F) << 8;
-		//gVal += spiTransceive(0x00);
-		gVal |= spiTransceive(0x00);
-		PORTD |= (1<<6);
+	signed int gVal = 0;
+	char chan = axis;
 
-		gVal = gVal*0.22;//Function from datasheet of parall
+	PORTCbits._P0  = LOW; //Select SS
+	spiTransceive(0b00000110);
+	gVal = spiTransceive(chan << 6);
+	gVal = (gVal & 0x0F) << 8;
+	gVal |= spiTransceive(0x00);
+	PORTCbits._P0  = HIGH; //Select SS
 
-		return (gVal);
+	return gVal;
+
+//BEGIN OF OLD CODE>>>
+//		DDRDbits._P5 = OUTPUT;
+//		signed int gVal = 0;
+//		//PORTD &= ~(1<<6);
+//		PINDbits._P5 = LOW;
+//		spiTransceive(0b00000110); // Access Comamand
+//		gVal = spiTransceive((axis << 6));
+//		gVal = (gVal & 0x0F) << 8;
+//		gVal += spiTransceive(0x00);
+//		//gVal |= spiTransceive(0x00);
+//		PINDbits._P5 = HIGH;
+//		//PORTD |= (1<<6);
+//
+//		gVal = gVal*0.22;//Function from datasheet of parall
+//
+//		return (gVal);
 }
 
 

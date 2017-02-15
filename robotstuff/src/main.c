@@ -130,6 +130,7 @@ ISR(TIMER0_OVF_vect)
 
 
 int main(void){
+
 	DDRBbits._P4 = OUTPUT; //Set Port B Pin 4 to output
 //	DDRBbits._P0 = OUTPUT;
 //
@@ -285,9 +286,9 @@ int main(void){
 			// = getPos(potAngle(2), potAngle(3));
 			//printf("%f, %f\r\n",*(p+0), *(p+1));// Code that publishes to matlab
 			//printf("%d, %d, %f, %f \n\r" ,potAngle(2), potAngle(3),  *(p+0), *(p+1));
-			printf("%ld, %i, %i, %i, %d\n\r", encCount(1), getAccel(0), getAccel(1), getAccel(2), getAccel(0)-  getAccel(1));
+			printf("%ld, %i, %i, %i\n\r", encCount(1), getAccel(0), getAccel(1), getAccel(2));
 			//printf("%i, %i\n\r", getAccel(0), (encCount(0)/(15136/360)));
-			printf("%i\n\r",encCount(1));
+			//printf("%i\n\r",encCount(1));
 
 	//	swagToothWave(0,1); //triangle on 0 and 1 channels DAC
 	//	printf("help me");
