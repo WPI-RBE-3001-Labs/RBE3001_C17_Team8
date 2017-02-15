@@ -19,34 +19,45 @@
  */
 signed int getAccel(int axis) //CONNECT SS OF ACCEL TO DDRC P0
 {
-	signed int gVal = 0;
-	char chan = axis;
+	int byte1 = 0;
+	int byte2 = 0;
 
-	PORTCbits._P0  = LOW; //Select SS
-	spiTransceive(0b00000110);
-	gVal = spiTransceive(chan << 6);
-	gVal = (gVal & 0x0F) << 8;
-	gVal |= spiTransceive(0x00);
-	PORTCbits._P0  = HIGH; //Select SS
 
-	return gVal;
+	int gVal = 0;
+	PORTDbits._P7 = LOW;
+	spiTransceive(0b00000110); // Access Comamand
 
-//BEGIN OF OLD CODE>>>
-//		DDRDbits._P5 = OUTPUT;
-//		signed int gVal = 0;
+	byte1 = spiTransceive(axis << 6);
+	byte2 = spiTransceive(0x00);
+	gVal = (byte1 & 0x0F) << 8;
+	gVal += byte2;
+	//gVal |= spiTransceive(0x00);
+	PORTDbits._P7 = HIGH;
+	//PORTD |= (1<<6);
+
+	gVal = gVal*0.22;//Function from datasheet of parall
+
+	return (gVal);
+
+
+////BEGIN OF OLD CODE>>>
+//	 	char chan = axis;
+//		DDRDbits._P7 = OUTPUT;
+//		int gVal = 0;
 //		//PORTD &= ~(1<<6);
-//		PINDbits._P5 = LOW;
+//		PINDbits._P7 = LOW;
 //		spiTransceive(0b00000110); // Access Comamand
-//		gVal = spiTransceive((axis << 6));
+//		gVal = spiTransceive(chan << 6);
 //		gVal = (gVal & 0x0F) << 8;
 //		gVal += spiTransceive(0x00);
 //		//gVal |= spiTransceive(0x00);
-//		PINDbits._P5 = HIGH;
+//		PINDbits._P7 = HIGH;
 //		//PORTD |= (1<<6);
 //
 //		gVal = gVal*0.22;//Function from datasheet of parall
 //
 //		return (gVal);
+
 }
 
 

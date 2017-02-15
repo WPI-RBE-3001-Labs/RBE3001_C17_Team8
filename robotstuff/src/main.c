@@ -131,6 +131,8 @@ ISR(TIMER0_OVF_vect)
 
 int main(void){
 
+
+
 	DDRBbits._P4 = OUTPUT; //Set Port B Pin 4 to output
 //	DDRBbits._P0 = OUTPUT;
 //
@@ -199,6 +201,7 @@ int main(void){
 			setPoint = 0;
 			setPoint2 = 0;
 			resetEncCount(1);
+			resetEncCount(0);
 //			state = 1;
 			//gotoAngles(setPoint,setPoint2);
 		} else if(PINBbits._P1 == LOW){
@@ -267,7 +270,7 @@ int main(void){
 //		setDAC(2,3072);
 //		setDAC(3,4095);
 
-		printf("%ld, %i, %i, %i\n\r", encCount(1), getAccel(0), getAccel(1), getAccel(2));
+		//printf("%ld, %i, %i, %i\n\r", encCount(1), getAccel(0), getAccel(1), getAccel(2));
 
 		if(tot_overflow>2)
 		{//make a scheduler, check if overflowed
@@ -286,7 +289,12 @@ int main(void){
 			// = getPos(potAngle(2), potAngle(3));
 			//printf("%f, %f\r\n",*(p+0), *(p+1));// Code that publishes to matlab
 			//printf("%d, %d, %f, %f \n\r" ,potAngle(2), potAngle(3),  *(p+0), *(p+1));
-			printf("%ld, %i, %i, %i\n\r", encCount(1), getAccel(0), getAccel(1), getAccel(2));
+			//printf("%ld, %ld, %i, %i, %i\n\r", encCount(0), encCount(1), getAccel(0), getAccel(1), getAccel(2));
+
+			printf("\t%i, \t%i, \t%i\n\r",(getAccel(0) - 444), (getAccel(1) - 444), (getAccel(2) - 550));
+
+
+			//printf("%i \n\r", getAccel(0));
 			//printf("%i, %i\n\r", getAccel(0), (encCount(0)/(15136/360)));
 			//printf("%i\n\r",encCount(1));
 
