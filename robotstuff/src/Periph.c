@@ -31,11 +31,9 @@ signed int getAccel(int axis) //CONNECT SS OF ACCEL TO DDRC P0
 	byte2 = spiTransceive(0x00);
 	gVal = (byte1 & 0x0F) << 8;
 	gVal += byte2;
-	//gVal |= spiTransceive(0x00);
 	PORTDbits._P7 = HIGH;
-	//PORTD |= (1<<6);
 
-	gVal = gVal*0.22;//Function from datasheet of parall
+	gVal = (gVal-2048)*0.022;//Function from datasheet of parall
 
 	return (gVal);
 
@@ -70,7 +68,7 @@ signed int getAccel(int axis) //CONNECT SS OF ACCEL TO DDRC P0
  */
 int IRDist(int chan)
 {
-	return 0;
+	return 0; //No used in this lab
 }
 
 /**
@@ -84,14 +82,14 @@ void encInit(int chan)
 	DDRC |= 0x30;
 	//DDRC |= 0b00110000
 
-	selectEncoder(chan);
-	spiTransceive(0x88); //Select MDR0 and set to write
+	selectEncoder(chan);	//Select encoder on chan
+	spiTransceive(0x88);	//Select MDR0 and set to write
 	spiTransceive(0x03);
-	disableEncoders();
+	deselectEncoders();		//Deselect all encoders
 
-	selectEncoder(chan);
-	spiTransceive(0x48); //Select MDR0 register and read
-	disableEncoders();
+	selectEncoder(chan); 	//Select encoder on chan
+	spiTransceive(0x48); 	//Select MDR0 register and read
+	deselectEncoders();		//Deselect all encoders
 }
 
 /**
@@ -102,9 +100,9 @@ void encInit(int chan)
  */
 void resetEncCount(int chan)
 {
-	selectEncoder(chan);
-	spiTransceive(0x20);
-	disableEncoders();
+	selectEncoder(chan);	//Select encoder on chan
+	spiTransceive(0x20);	//Send commnand to encoder to clear
+	deselectEncoders();   	//Deselect all encoders
 
 }
 
@@ -119,17 +117,17 @@ signed long encCount(int chan)
 {
 	signed long cnt = 0;
 
-	selectEncoder(chan);
+	selectEncoder(chan); //Select the ecoder
 	spiTransceive(0x60); //Read CNTR and send over MISO)
 
-	// Shifts 4 SPI bytes into 24 bit value
+	// Read in the counts as 4 SPI bytes and combined them into 24 bit (signed int) value
 	cnt = ((long) (spiTransceive(0)) << 24);
 	cnt += ((long) (spiTransceive(0)) << 16);
 	cnt += ((long) (spiTransceive(0)) << 8);
 	cnt += spiTransceive(0);
 
 
-	disableEncoders();
+	deselectEncoders(); //Deselect encoders
 
 	// Inverts channel 0 to account for motor difference
 	if (chan == 0) cnt = -cnt;
@@ -144,8 +142,8 @@ void selectEncoder(int chan) //Function selects encoders, takes input of link
 	else return; //otherwise return
 }
 
-void disableEncoders()
+void deselectEncoders()
 {
-	ENCODER_SS_0 = HIGH; //disable both slaves by setting high
+	ENCODER_SS_0 = HIGH; //disable both slave chips by setting high
 	ENCODER_SS_1 = HIGH;
 }

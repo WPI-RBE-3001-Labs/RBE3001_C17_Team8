@@ -199,20 +199,20 @@ int main(void){
 	while(1){
 		if(PINBbits._P0 == LOW){
 			setPoint = 0;
-			setPoint2 = 0;
-			resetEncCount(1);
-			resetEncCount(0);
+			//setPoint2 = 0;
+//			resetEncCount(1);
+//			resetEncCount(0);
 //			state = 1;
 			//gotoAngles(setPoint,setPoint2);
 		} else if(PINBbits._P1 == LOW){
-			setPoint = 1024;
+			setPoint = -1024;
 			//setPoint2 = -30;
 		} else if(PINBbits._P2 == LOW){
 			//resetEncCount(0);
-			setPoint = 4095;
+			setPoint = 1024;
 			//setPoint2 = -60;
 		} else if(PINBbits._P3 == LOW){
-			setPoint = -1024;
+			setPoint = 4095;
 			//setPoint2 = -90;
 			//gotoAngles(setPoint,setPoint2);
 		}
@@ -266,6 +266,8 @@ int main(void){
 
 //		matLabDataCollect();
 
+		driveLink(0, setPoint);
+		driveLink(1, setPoint);
 
 //		setDAC(2,3072);
 //		setDAC(3,4095);
@@ -289,9 +291,9 @@ int main(void){
 			// = getPos(potAngle(2), potAngle(3));
 			//printf("%f, %f\r\n",*(p+0), *(p+1));// Code that publishes to matlab
 			//printf("%d, %d, %f, %f \n\r" ,potAngle(2), potAngle(3),  *(p+0), *(p+1));
-			//printf("%ld, %ld, %i, %i, %i\n\r", encCount(0), encCount(1), getAccel(0), getAccel(1), getAccel(2));
+			printf("%ld, %ld, %i, %i, %i\n\r", encCount(0), encCount(1), getAccel(0), getAccel(1), getAccel(2));
 
-			printf("\t%i, \t%i, \t%i\n\r",(getAccel(0) - 444), (getAccel(1) - 444), (getAccel(2) - 550));
+			//printf("\t%i, \t%i, \t%i\n\r",(getAccel(0)), (getAccel(1)), (getAccel(2)));
 
 
 			//printf("%i \n\r", getAccel(0));

@@ -70,8 +70,8 @@ void initSPI(){
 	ENCODER_SS_3 = HIGH;	//SPI Slave Select Encoder 3, PORTCbits._P2
 	PORTCbits._P0 = HIGH;	//SPI Slave Select Unused
 
-	DDRDbits._P7 = OUTPUT; //SPI Accel
-	PORTDbits._P7 = HIGH; // SPI Accel
+	DDRDbits._P7 = OUTPUT; //SPI Accel configure D7
+	PORTDbits._P7 = HIGH; // SPI Accel configure D7
 
 
 	//here we have the wild MOSI, SCK and SS as output.
