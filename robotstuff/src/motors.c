@@ -80,5 +80,6 @@ void homePos(){
 	//Now reset encoder, because we are there at home
 	resetEncCount(0);
 	resetEncCount(1);
+	stopMotors();
 }
 

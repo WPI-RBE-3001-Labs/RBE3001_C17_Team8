@@ -11,7 +11,7 @@ int potAngle(int pot){
 
 	if(pot == 3){ //if lower pot, then use scaling for lower one
 	int val = getADC(pot);
-	return ((int)((val-273)*0.2406)-95);
+	return ((int)((val-273)*0.2406)-90);
 	}
 
 	else
