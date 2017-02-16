@@ -70,6 +70,9 @@ void initSPI(){
 	ENCODER_SS_3 = HIGH;	//SPI Slave Select Encoder 3, PORTCbits._P2
 	PORTCbits._P0 = HIGH;	//SPI Slave Select Unused
 
+	DDRDbits._P7 = OUTPUT; //SPI Accel
+	PORTDbits._P7 = HIGH; // SPI Accel
+
 
 	//here we have the wild MOSI, SCK and SS as output.
 	//DDRB = (1<<DDB5)|(1<<DDB7)|(1<<DDB4)
@@ -81,7 +84,7 @@ void initSPI(){
 	(1<< MSTR	)| //master/slave select (master on 1, slave on 0)
 	(0<< CPOL	)| //clock polarity
 	(0<< CPHA	)| //clock phase
-	(0<< SPR1	)| //still the prescaler
+	(1<< SPR1	)| //still the prescaler
 	(1<< SPR0	); //its the prescaler
 
 
