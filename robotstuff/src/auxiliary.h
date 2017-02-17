@@ -8,7 +8,10 @@
 #ifndef AUXILIARY_H_
 #define AUXILIARY_H_
 
+volatile uint8_t tot_overflow;
 
 void armInitialization(void);
+void initializeButtons(void);
+int readThatAmperage(int link);
 
 #endif /* AUXILIARY_H_ */
