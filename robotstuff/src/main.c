@@ -11,6 +11,7 @@
 
 #include "RBELib/RBELib.h" //RBELib
 #include "Kinematics.h"
+#include "auxiliary.h"
 
 
 volatile uint8_t tot_overflow;
@@ -133,37 +134,10 @@ ISR(TIMER0_OVF_vect){tot_overflow++;}
 
 
 int main(void){
-
-
-
-	DDRBbits._P4 = OUTPUT; //Set Port B Pin 4 to output
-
-	initTC0(); //initialize clock
-
-	initRBELib();// SUPA, IMPORTANT, YOU GOTTA START RBELIB OR ELSE PRINT won WORK
-
-	initADC(0);//current sensor 0
-	initADC(2);// potentiometer 0
-
-	initADC(1);//current sensor 1
-	initADC(3);// potentiometer 1
-
-	initADC(4);
-
-	debugUSARTInit(DEFAULT_BAUD);
-
-	initSPI();
-	encInit(0);
-
-	setConst(0, 200, 0.5, 0.1);
-	setConst(1, 200, 0.5, 0.1); //I don't want it to run right now, set to 0
-
-	int state = 1;
+	armInitialization();
+	initializeButtons();
 
 	int setPoint = 0;
-	int setPoint2 = 0;
-
-	initializeButtons();
 
 	while(1){
 		if(PINBbits._P0 == LOW){
