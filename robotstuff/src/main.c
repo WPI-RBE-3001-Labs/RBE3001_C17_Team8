@@ -38,7 +38,6 @@ void initTC0(){
 
 	sei(); //enable global interrupts
 
-
 }
 
 
@@ -64,10 +63,11 @@ void matLabDataCollect(void) //function takes Q to start it
 		  				printf("%d,%d,%d,",ticks,anglePot,mV);
 		  				_delay_us(2500);
 		  			}
-		  	    printf("\n\r");
+		  	    //printf("\n\r");
 		  		}
 		  	  }
 }
+
 void swagToothWave(int channel1, int channel2){
 
 	if (waveUp1==1){ //going up
@@ -108,23 +108,26 @@ void readLinkAngles(void){
 	int get2 = potAngle(3);
 	int get = potAngle(2);
 	printf(", %d, %d\r",get,get2);
-
 }
 
 int readThatAmperage(int link){
 	int get = getADC(link);
-
 	get = (int)(get-555)*3.77;
 //	printf("%d mA\n\r",get);
-	return get;
+	return get;}
+
+void initializeButtons(void){
+	DDRBbits._P0 = INPUT;
+	DDRBbits._P1 = INPUT;
+	DDRBbits._P2 = INPUT;
+	DDRBbits._P3 = INPUT;
+	//PINBbits._P0 == LOW
 }
 
 
-ISR(TIMER0_OVF_vect)
-{
-	tot_overflow++;
+
+ISR(TIMER0_OVF_vect){tot_overflow++;}
 //		PINBbits._P4 = 1; //Sets Port B Pin 4 to high
-}
 
 
 
@@ -134,35 +137,6 @@ int main(void){
 
 
 	DDRBbits._P4 = OUTPUT; //Set Port B Pin 4 to output
-//	DDRBbits._P0 = OUTPUT;
-//
-//	DDRBbits._P0 = OUTPUT; //Set Port B Pin 4 to output
-//	DDRBbits._P1 = OUTPUT;
-//	DDRBbits._P2 = OUTPUT; //Set Port B Pin 4 to output
-//	DDRBbits._P3 = OUTPUT;
-//	DDRBbits._P4 = OUTPUT; //Set Port B Pin 4 to output
-//	DDRBbits._P5 = OUTPUT;
-//	DDRBbits._P6 = OUTPUT; //Set Port B Pin 4 to output
-//	DDRBbits._P7 = OUTPUT;
-//
-//	DDRDbits._P0 = INPUT; //Set Port B Pin 4 to output
-//	DDRDbits._P1 = INPUT;
-//	DDRDbits._P2 = INPUT; //Set Port B Pin 4 to output
-//	DDRDbits._P3 = INPUT;
-//	DDRDbits._P4 = INPUT; //Set Port B Pin 4 to output
-//	DDRDbits._P5 = INPUT;
-//	DDRDbits._P6 = INPUT; //Set Port B Pin 4 to output
-//	DDRDbits._P7 = INPUT;
-//
-////	PINBbits._P4 = 1; //Sets Port B Pin 4 to low
-//
-
-
-//	TCCR1B |= (1 << WGM12); // Configure timer 1 for CTC mode
-//	sei(); //  Enable global interrupts
-//	TIMSK1 |= (1 << OCIE1A); // Enable CTC interrupt
-//	OCR1A = (23040); // Set CTC compare value with a prescaler of 8 (100Hz)
-//	TCCR1B |= (1 << CS11); // Start timer at Fcpu/8
 
 	initTC0(); //initialize clock
 
@@ -173,6 +147,7 @@ int main(void){
 
 	initADC(1);//current sensor 1
 	initADC(3);// potentiometer 1
+
 	initADC(4);
 
 	debugUSARTInit(DEFAULT_BAUD);
@@ -183,19 +158,12 @@ int main(void){
 	setConst(0, 200, 0.5, 0.1);
 	setConst(1, 200, 0.5, 0.1); //I don't want it to run right now, set to 0
 
-
 	int state = 1;
 
 	int setPoint = 0;
 	int setPoint2 = 0;
-//	int volts = 0;
-//	int current = 0;
 
-	DDRBbits._P0 = INPUT;
-	DDRBbits._P1 = INPUT;
-	DDRBbits._P2 = INPUT;
-	DDRBbits._P3 = INPUT;
-
+	initializeButtons();
 
 	while(1){
 		if(PINBbits._P0 == LOW){
@@ -218,59 +186,6 @@ int main(void){
 			//gotoAngles(setPoint,setPoint2);
 		}
 
-//		switch (state)
-//		{
-//			case 1:
-//				setPoint = 0;
-//				setPoint2 = 0;
-//		//		printf("point 0 reached!");
-//				break;
-//			case 2:
-//				setPoint = 0;
-//				setPoint2 = -5;
-//				break;
-//			case 3:
-//				setPoint = 20;
-//				setPoint2 = -45;
-//				break;
-//			case 4:
-//				setPoint = 18;
-//				setPoint2 = -50;
-//				break;
-//			case 5:
-//				setPoint = 35;
-//				setPoint2 = -90;
-//			//	printf("point 1 reached!");
-//				break;
-//			case 6:
-//				setPoint = 35;
-//				setPoint2 = -75;
-//		//		printf("point 2 reached!");
-//				break;
-//			case 7:
-//				setPoint = 35;
-//				setPoint2 = -60;
-//				break;
-//			case 8:
-//				setPoint = 15;
-//				setPoint2 = -30;
-//				break;
-//			case 9:
-//				state = 1;
-//		}
-//
-//		if(potAngle(2)==setPoint && potAngle(3)==setPoint2)
-//		{
-//			state++;
-//		}
-
-
-//		matLabDataCollect();
-
-//		setDAC(2,3072);
-//		setDAC(3,4095);
-
-		//printf("%ld, %i, %i, %i\n\r", encCount(1), getAccel(0), getAccel(1), getAccel(2));
 
 		if(tot_overflow>2) //2 sets the sample rate to 109Hz
 		{//make a scheduler, check if overflowed
@@ -286,33 +201,14 @@ int main(void){
 
 //			double *p;
 
-			gotoAngles(setPoint,0);
-
-
-			// = getPos(potAngle(2), potAngle(3));
+			//p = getPos(potAngle(2), potAngle(3));
 			//printf("%f, %f\r\n",*(p+0), *(p+1));// Code that publishes to matlab
-			//printf("%d, %d, %f, %f \n\r" ,potAngle(2), potAngle(3),  *(p+0), *(p+1));
-		//	gotoAngles(setPoint,setPoint2);
 
 			printf("%ld, %ld, %d, %d, %i, %i, %i\r", encCount(0), encCount(1), potAngle(2), potAngle(3), getAccel(0), getAccel(1), getAccel(2));
 
 			//printf("\t%i, \t%i, \t%i\n\r",(getAccel(0)), (getAccel(1)), (getAccel(2)));
 
-
-			//printf("%i \n\r", getAccel(0));
-			//printf("%i, %i\n\r", getAccel(0), (encCount(0)/(15136/360)));
-			//printf("%i\n\r",encCount(1));
-
-	//	swagToothWave(0,1); //triangle on 0 and 1 channels DAC
-	//	printf("help me");
-
-		//	if(potAngle(2) != setPoint){
-		//printf("%d, %d, %d\r\n",setPoint, potAngle(2), readThatAmperage(0));
-		//	}
-
 		tot_overflow = 0; //ooga booga set it to zooga
-
-
 		}
 	}
 
