@@ -75,11 +75,11 @@ void homePos(){
 			isNotThere = 0; //It IS there!! Home sweet home.
 		}
 		//else loop until there
-		gotoAngles(0,0); //go to the angles that are 0 and 0
+		else {gotoAngles(0,0); _delay_us(100);} //go to the angles that are 0 and 0
 	}
-	//Now reset encoder, because we are there at home
+	//Now reset encoder and stop motors, because we are there at home
+	stopMotors();
 	resetEncCount(0);
 	resetEncCount(1);
-	stopMotors();
 }
 
