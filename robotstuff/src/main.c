@@ -18,6 +18,7 @@ int getRange(void){
 	//function returns distance in tenths of an inch.
 	int ir = getADC(4);
 	if(ir < 400){return 0;}
+
 	return ir;
 }
 
@@ -28,7 +29,9 @@ int main(void){
 	DDRBbits._P4 = OUTPUT;
 	initADC(4);
 
-	armInitialization(); initializeButtons(); //call initialization functions
+	armInitialization();
+	initializeButtons(); //call initialization functions
+
 
 
 	while(1){//Check buttons
@@ -73,13 +76,10 @@ int main(void){
 //			state = 0;
 //		}
 
-
-
-
 		if(tot_overflow>2) //2 sets the sample rate to 109Hz
 		{//make a scheduler, check if overflowed
 		tot_overflow = 0; //reset scheduler
-			printf("%d\n\r",getADC(4));
+			printf("%d\n\r",getRange());
 		}
 	}
 
