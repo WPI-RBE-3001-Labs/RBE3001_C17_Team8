@@ -9,6 +9,7 @@
 #define KINEMATICS_H_
 
 double degToRad(double ang);
+double radToDeg(double rad);
 double * getPos(int theta1, int theta2);
 double * getAngles(double x, double y);
 
