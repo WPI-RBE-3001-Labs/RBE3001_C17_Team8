@@ -75,11 +75,13 @@ int main(void){
 //		default:
 //			state = 0;
 //		}
+		printf("%d, %d\n\r", getAngles(7, 7)[0], getAngles(7, 7)[1]);
 
 		if(tot_overflow>2) //2 sets the sample rate to 109Hz
 		{//make a scheduler, check if overflowed
 		tot_overflow = 0; //reset scheduler
 			printf("%d\n\r",getRange());
+
 		}
 	}
 

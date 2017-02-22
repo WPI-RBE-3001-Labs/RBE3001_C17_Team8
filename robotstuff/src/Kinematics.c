@@ -36,18 +36,18 @@ double * getAngles(double x, double y)
 {
 	double angles[2];
 	angles[0] = 0;
-	angles[1] = 0;
+	angles[1] = -90;
 
 
 
-	while(x != getPos(angles[0], angles[1])[0] && y != getPos(angles[0], angles[1])[1])
+	while(x != getPos(angles[0], angles[1])[0] && y != getPos(angles[0], angles[1])[1] && angles[0] < 90)
 	{
-		while(angles[1] < 90)
+		while(x != getPos(angles[0], angles[1])[0] && y != getPos(angles[0], angles[1])[1] && angles[1] < 90)
 			{
 				angles[1]++;
 			}
+			angles[1] = -90;
 			angles[0]++;
 	}
-
-
+	return angles;
 }
