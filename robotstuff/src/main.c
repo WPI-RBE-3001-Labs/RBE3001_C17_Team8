@@ -16,9 +16,12 @@ ISR(TIMER0_OVF_vect){tot_overflow++;}//count up tot_overflow on timer0 ovf inter
 int main(void){
 	int state = 0;
 
-	armInitialization(); initializeButtons(); //call initialization functions
+	armInitialization();
+	initializeButtons(); //call initialization functions
+
 
 	while(1){//Check buttons
+
 
 		switch(state){
 
