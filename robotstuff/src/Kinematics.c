@@ -11,13 +11,17 @@
 
 
 // variables are in inches, should be in mm
-double link1 = 152.4;
-double link2 = 124;
-double yOffset = 142.4;
+double link1 = 6;
+double link2 = 6;
+double yOffset = 3.75;
 
 double degToRad(double ang)
 {
 	return ang*(M_PI/180);
+}
+double radToDeg(double rad)
+{
+	return rad*(180/M_PI);
 }
 
 double * getPos(int theta1, int theta2)
@@ -34,20 +38,10 @@ double * getPos(int theta1, int theta2)
 
 double * getAngles(double x, double y)
 {
-	double angles[2];
-	angles[0] = 0;
-	angles[1] = 0;
+	static double angles[2];
 
+	angles[0] =  radToDeg(atan(y/x) + acos((((pow(x, 2) + pow(y, 2)) + (pow(link1, 2) - pow(link2, 2))))/(2*link1*sqrt (pow(x, 2)+pow(y, 2))))); //Calculate  theta 1
+	angles[1] = -radToDeg(acos((((pow(x, 2) + pow(y, 2)) - (pow(link1, 2) + pow(link2, 2)))) / (2*link1*link2))); //Calculate theta 2
 
-
-	while(x != getPos(angles[0], angles[1])[0] && y != getPos(angles[0], angles[1])[1])
-	{
-		while(angles[1] < 90)
-			{
-				angles[1]++;
-			}
-			angles[0]++;
-	}
-
-
+	return angles;
 }
