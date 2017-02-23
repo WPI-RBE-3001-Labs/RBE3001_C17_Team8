@@ -12,8 +12,8 @@
 
 // variables are in inches, should be in mm
 double link1 = 6;
-double link2 = 6;
-double yOffset = 3.75;
+double link2 = 7;
+double yOffset = 7;
 
 double degToRad(double ang)
 {
