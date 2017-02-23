@@ -7,4 +7,3 @@
 //	if(ir < 400){return 0;}
 //	else{ir = ir*-0.1333 + 93.333; return ir;}
 //}
-
