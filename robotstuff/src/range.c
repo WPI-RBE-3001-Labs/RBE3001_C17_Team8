@@ -5,5 +5,5 @@ unsigned char getRange(void){
 	//function returns distance in tenths of inches.
 	int ir = getADC(4);
 	if(ir < 400){return 0;}
-	else{ir = ir*-0.1333 + 93.333; return ir;}
+	else{ir = ir*-0.1333 + 93.333; if(ir>100){return 0;} else {return ir;}}
 }
