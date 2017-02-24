@@ -13,7 +13,7 @@ unsigned int getRange(void){
 
 	if(ir < 400)
 	{
-		return 0;
+		return 42;
 	}
 	else
 	{
