@@ -19,10 +19,12 @@ ISR(TIMER0_OVF_vect){tot_overflow++;
 int main(void){
 	int state = 0;
 
-	float yHeight = -2.1;//Height of the block
-	float xOffset = 7;//Distance from arm to belt
-	float xDist;//will hold distance of block x.
+	float yHeight = 0;//Height of the block, set to 0 due to kinematics from link0
+	float xOffset = 6.8;//Distance from arm to belt
+	float xDist;//will hold distance of block x
 	int xBlock;
+	char done;
+	int timeCycles;
 
 
 	double theta1 =0;
@@ -41,31 +43,46 @@ int main(void){
 
 		//printf("%6.2f\n\r", getRange()*.1);
 
-		xDist = xOffset + (getRange()/10) + 0.5;
-		theta1 = getAngles(xDist, yHeight)[0];//Set theta 1 lower link
-		theta2 = getAngles(xDist, yHeight)[1];//Set theta 2 upper link
-		printf("%i, %i\n\r", (int)theta1, (int)theta2);
-		gotoAngles((int)theta1,(int)theta2);
+//		xDist = xOffset + (((float)getRange())/10) + 0.5;
+//		theta1 = getAngles(xDist, yHeight)[0];//Set theta 1 lower link
+//		theta2 = getAngles(xDist, yHeight)[1];//Set theta 2 upper link
+//		printf("%i, %i, %f\n\r", (int)theta1, (int)theta2, xDist);
+//
+//		if(tot_overflow>2){
+//		gotoAngles((int)theta1,(int)theta2+15);
+//		tot_overflow = 0;
+//		}
 		//gotoAngles(0,0);
 
 
 
-//		switch(state){
-//
-//		case 0://Basically poll IR for new information, compare when recieved
-//				if(getRange()){state = 1; xBlock = getRange();}
-//			break;
-//
-//		case 1://Calculate theta1 and theta2 using IK, as well as info from IR
-//			//Y position will remain constant,
-//			//X position will change only a little bit.
-//			xDist = xOffset + (xBlock/10) + 0.5;
-//			theta1 = getAngles(xDist, yHeight)[0];//Set theta 1 lower link
-//			theta2 = getAngles(xDist, yHeight)[1];//Set theta 2 upper link
-//			waitTheta2 = (int)(theta2); //make a pretty int for gotoAngles()
-//			waitTheta1 = (int)(theta1);//simply cast so computation is not run every cyc
-//			state = 2;//move to next state
-//			break;
+		switch(state){
+
+		case 0://Basically poll IR for new information, compare when recieved
+				if(getRange()){
+					state = 1;
+					done = 0;
+					timeCycles = 0;
+					printf("\r\n");//newline
+					printf("blockDetected\r\n");
+				}
+				else printf("polling\r");
+			break;
+
+		case 1://Calculate theta1 and theta2 using IK, as well as info from IR
+			//Y position will remain constant,
+			//X position will change only a little bit.
+			xDist = xOffset + (((float)getRange())/10) + 0.5;
+			theta1 = getAngles(xDist, yHeight)[0];//Set theta 1 lower link
+			theta2 = getAngles(xDist, yHeight)[1];//Set theta 2 upper link
+
+			if(tot_overflow > 2){
+				gotoAngles((int)theta1,(int)theta2);
+				timeCycles++;
+			}
+
+			if(done){state = 2;}//move to next state
+			break;
 //
 //		case 2://Now wait for block to be in place, go to a starting position.
 //			if(tot_overflow>2){
@@ -125,9 +142,10 @@ int main(void){
 //			state = 0;
 //			break;
 //
-//		default:
-//			state = 0;
-//		}
+		default:
+			state = 1;
+			//printf("default");
+		}
 	//	printf("%6.3f, %6.3f\n\r", getAngles(8, 3)[0], getAngles(8, 3)[1]);
 
 //		if(tot_overflow>2) //2 sets the sample rate to 109Hz
