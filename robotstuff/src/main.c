@@ -42,6 +42,8 @@ int main(void){
 	armInitialization();
 	initializeButtons(); //call initialization functions
 
+	setServo(0,177);
+	setServo(1,0);
 
 	while(1){//Check buttons
 
