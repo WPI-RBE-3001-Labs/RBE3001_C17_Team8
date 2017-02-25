@@ -12,7 +12,7 @@
 
 // variables are in inches, should be in mm
 double link1 = 6;
-double link2 = 5.5;//set to 5.5 to put point of grip within gripper
+double link2 = 6;//set to 5.5 to put point of grip within gripper
 double yOffset = 7;
 
 double degToRad(double ang)

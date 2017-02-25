@@ -19,13 +19,13 @@ ISR(TIMER0_OVF_vect){tot_overflow++;
 int main(void){
 	int state = 0;
 
-	float yHeight = 0;//Height of the block, set to 0 due to kinematics from link0
+	float yHeight = -1;//Height of the block, set to 0 due to kinematics from link0
 	float xOffset = 6.8;//Distance from arm to belt
 	float xDist;//will hold distance of block x
 
 	char done = 0;
 	unsigned int timeCycles = 0;
-	unsigned int timeToGrip = 1300;
+	unsigned int timeToGrip = 1400;
 	unsigned int timeToCloseGrip = 1000;
 	unsigned int timeToWeigh = 500;
 	unsigned int timeToGo = 5000;
