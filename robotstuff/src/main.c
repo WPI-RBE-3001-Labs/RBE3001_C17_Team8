@@ -25,7 +25,7 @@ int main(void){
 
 	char done = 0;
 	unsigned int timeCycles = 0;
-	unsigned int timeToGrip = 1000;
+	unsigned int timeToGrip = 1300;
 	unsigned int timeToCloseGrip = 1000;
 	unsigned int timeToWeigh = 10000;
 	unsigned int timeToGo = 5000;
@@ -42,8 +42,8 @@ int main(void){
 	armInitialization();
 	initializeButtons(); //call initialization functions
 
-	setServo(0,177);
-	setServo(1,0);
+	setServo(0,255);
+	setServo(1,255);
 
 	while(1){//Check buttons
 
@@ -132,7 +132,7 @@ int main(void){
 			if(potAngle(3) == waitTheta2){//check if we are at the angle necessary
 				state = 4;//set sail for the next state
 				stopMotors();//stop the motors from twitching (may remove)
-				//setServo(0,69);//pinch the block
+				setServo(0,255);//pinch the block
 
 				printf("GRIP NOW!!!!\r\n");
 
@@ -204,7 +204,7 @@ int main(void){
 			break;
 
 		case 9://drop the block
-		//	setServo(0,0);//find out commands through testing
+			setServo(0,0);//find out commands through testing
 			stopMotors();
 			printf("Drop\r\n");
 			printf("\r\n");
