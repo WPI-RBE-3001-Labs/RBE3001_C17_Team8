@@ -27,7 +27,7 @@ int main(void){
 	unsigned int timeCycles = 0;
 	unsigned int timeToGrip = 1300;
 	unsigned int timeToCloseGrip = 1000;
-	unsigned int timeToWeigh = 10000;
+	unsigned int timeToWeigh = 1000;
 	unsigned int timeToGo = 5000;
 
 
@@ -42,7 +42,7 @@ int main(void){
 	armInitialization();
 	initializeButtons(); //call initialization functions
 
-	setServo(0,255);
+	setServo(0,0);
 	setServo(1,255);
 
 	while(1){//Check buttons
@@ -174,7 +174,7 @@ int main(void){
 			//delay some more time
 			timeCycles = 0;
 			while(timeCycles < timeToWeigh){
-				if(tot_overflow>2){timeCycles++;}
+				if(tot_overflow>2){timeCycles++;tot_overflow = 0;}
 				}
 
 
@@ -183,12 +183,12 @@ int main(void){
 			break;
 
 		case 6://decide sorting
-			if(potAngle(3) < -40){state = 7;}//heavy block if hasn't moved
+			if(potAngle(2) < 40){state = 7;}//heavy block if hasn't moved
 			else {state = 8;} //it's a light block if it has moved
 			break;
 
 		case 7://position of Light Block
-			printf("Light Block\r\n");
+			printf("Heavy Block\r\n");
 
 			timeCycles = 0;
 
@@ -199,7 +199,7 @@ int main(void){
 			break;
 
 		case 8://Position of Heavy Block
-			printf("Heavy BLock\r\n");
+			printf("Light BLock\r\n");
 			state = 9;
 			break;
 
