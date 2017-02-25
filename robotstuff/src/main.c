@@ -27,7 +27,7 @@ int main(void){
 	unsigned int timeCycles = 0;
 	unsigned int timeToGrip = 1300;
 	unsigned int timeToCloseGrip = 1000;
-	unsigned int timeToWeigh = 1000;
+	unsigned int timeToWeigh = 500;
 	unsigned int timeToGo = 5000;
 
 
