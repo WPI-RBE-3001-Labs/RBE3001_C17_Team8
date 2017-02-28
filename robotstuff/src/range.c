@@ -16,11 +16,13 @@ unsigned int getRange(void){
 
 	else //otherwise...
 	{
-		ir = ir*-0.1333 + 93.333;//follow linearized model of sensor data
-		if(ir < 29 && ir >= 0)//remove unecessary data
-		{return ir;}//return a worthwhile value
+		ir = ir*-0.12 + 93.333;//follow linearized model of sensor data
 
-		else
-		{return 0;}//return a good-enough value because data is wrong
+		if(ir <= 35 && ir >= -35)//remove unecessary data
+		{
+
+			return ir;
+		}//return a worthwhile value
+		else{return 0;}//return a good-enough value because data is wrong
 	}
 }

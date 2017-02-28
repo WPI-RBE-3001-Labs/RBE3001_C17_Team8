@@ -18,7 +18,7 @@ ISR(TIMER0_OVF_vect){tot_overflow++;}//count up tot_overflow on timer0 ovf inter
 int main(void){
 	int state = 0;//keeps track of the state of the function
 
-	float yHeight = -1;//Height of the block, set to 0 due to kinematics from link0
+	float yHeight = 0;//Height of the block, set to 0 due to kinematics from link0
 	float xOffset = 6.8;//Distance from arm to belt
 	float xDist;//will hold distance of block x
 
@@ -26,7 +26,7 @@ int main(void){
 
 	//Note, conversion can be done as 1 tick ~ 1/100 of a second.
 	unsigned int timeCycles = 0;//integer to hold total time elapsed after reset
-	unsigned int timeToGrip = 1400;//constant integer to compare against for delay
+	unsigned int timeToGrip = 1350;//constant integer to compare against for delay
 	unsigned int timeToCloseGrip = 1000;//same as above, for different use
 	unsigned int timeToWeigh = 500;//short delay for gripper to close
 	unsigned int timeToGo = 5000;//time it takes to move to
@@ -39,14 +39,15 @@ int main(void){
 	armInitialization(); //call initialization functions, found in auxiliary.c
 	initializeButtons(); //call initialization functions
 
-	setServo(0,0);//set the gripper to open initially
-	setServo(1,255);//set the conveyor to move forward, stay like that for duration
+	setServo(0,0); //set the conveyor to move forward, stay like that for duration
+	setServo(1,255);  //set the gripper to open initially
 
 	while(1){
 
 		switch(state){//keep in state format, easier to troubleshoot and track flow
 
 		case 0://Basically poll IR for new information, compare when recieved
+				gotoAngles(waitTheta1,(waitTheta2+15));
 				if(getRange() != 42){//while printing code 42, do nothing
 					state = 1;
 					done = 0;//make sure important variables are in correct standing
@@ -75,6 +76,9 @@ int main(void){
 
 			if(done){//if the block IS done blocking the sensor,
 				state = 2;//move to next state
+				//TEST set waitTheta to calculated theata instead
+				//waitTheta1 = theta1;
+				//waitTheta2 = theta2;
 				waitTheta1 = potAngle(2);//store angles
 				waitTheta2 = potAngle(3);//as direct read of the configuration
 				printf("\r\n");
@@ -109,7 +113,7 @@ int main(void){
 			if(potAngle(3) == waitTheta2){//check if we are at the angle necessary
 				state = 4;//set sail for the next state
 				stopMotors();//stop the motors from twitching (may remove)
-				setServo(0,255);//pinch the block
+				setServo(1,255);//pinch the block
 
 				printf("GRIP NOW!!!!\r\n");
 
@@ -179,7 +183,7 @@ int main(void){
 			break;
 
 		case 9://Drop the block
-			setServo(0,0);//open the grippers
+			setServo(1,0);//open the grippers
 			stopMotors();//stop function of the motors
 			printf("Drop\r\n");
 			printf("\r\n");
@@ -189,7 +193,7 @@ int main(void){
 		default://put the arm into a safe state
 			state = 0;//return to the known path
 			stopMotors();//stop motors from moving
-			setServo(0,0);//open gripper
+			setServo(1,0);//open gripper
 			printf("\r\n");
 			printf("default");
 			printf("\r\n");
