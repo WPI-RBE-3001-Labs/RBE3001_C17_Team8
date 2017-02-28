@@ -1,6 +1,6 @@
 #include "RBELib/RBELib.h"
 
-volatile uint8_t tot_overflow;
+volatile uint8_t tot_overflow;//keep track of spooky interrupts ghosty scary
 
 unsigned long wave1 = 0;
 unsigned long wave2 = 4000;
@@ -8,8 +8,6 @@ unsigned long wave2 = 4000;
 unsigned char waveUp1 = 1;
 
 char inchar;
-
-
 
 void initTC0(){
 	TCNT0 = 0x00; //initialize tick counts to 0
@@ -40,6 +38,9 @@ void armInitialization(void){
 
 		setConst(0, 200, 0.5, 0.1); //lower motor PID constants (L, P, I, D)
 		setConst(1, 200, 0.5, 0.1); //second motor PID constants
+
+		DDRBbits._P4 = OUTPUT;//used to check frequency of interrupt
+		initADC(4);//ADC that the IR sensor is on. Could make new init function
 }
 
 //function initializes four buttons on wires as in lab3
