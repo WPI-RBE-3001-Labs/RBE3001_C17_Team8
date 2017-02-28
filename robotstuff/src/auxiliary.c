@@ -1,6 +1,6 @@
 #include "RBELib/RBELib.h"
 
-volatile uint8_t tot_overflow;//keep track of spooky interrupts ghosty scary
+volatile uint8_t tot_overflow;//keep track of spooky interrupts
 
 unsigned long wave1 = 0;
 unsigned long wave2 = 4000;
