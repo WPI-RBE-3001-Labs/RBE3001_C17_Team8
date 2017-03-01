@@ -41,6 +41,7 @@ void gotoAngles(int lowerTheta, int upperTheta){
 	int minOne = -110; //define limits for the 1st link, -110 and 90 degrees
 	int maxOne = 90;
 
+
 	if (lowerTheta < minZero) { //catch edge cases by making sure robot operates
 		lowerTheta = minZero;   //within regular reach of the arm.
 	} else if (lowerTheta > maxZero){
@@ -59,6 +60,9 @@ void gotoAngles(int lowerTheta, int upperTheta){
 	int onePID =  calcPID(1, upperTheta, potAngle(3));
 
 //	printf("%d,%d,%d,%d\r\n",zeroPID,potAngle(2),onePID,potAngle(3));
+
+	//Enable the following line of code to publish points to matlab
+	//printf(" %d %d \n\r" ,lowerTheta, upperTheta);
 
 	//And Finally, the part we've been waiting for
 	driveLink(0, zeroPID); //now we drive the motors
