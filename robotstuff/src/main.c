@@ -18,18 +18,18 @@ ISR(TIMER0_OVF_vect){tot_overflow++;}//count up tot_overflow on timer0 ovf inter
 int main(void){
 	int state = 0;//keeps track of the state of the function
 
-	float yHeight = 0;//Height of the block, set to 0 due to kinematics from link0
-	float xOffset = 6.8;//Distance from arm to belt
+	float yHeight = -0.25;//Height of the block, set to 0 due to kinematics from link0
+	float xOffset = 7.5;//Distance from arm to belt
 	float xDist;//will hold distance of block x
 
 	char done = 0;//a very important variable that has a self-explanatory use later
 
 	//Note, conversion can be done as 1 tick ~ 1/100 of a second.
 	unsigned int timeCycles = 0;//integer to hold total time elapsed after reset
-	unsigned int timeToGrip = 1350;//constant integer to compare against for delay
+	unsigned int timeToGrip = 1250;//constant integer to compare against for delay
 	unsigned int timeToCloseGrip = 1000;//same as above, for different use
 	unsigned int timeToWeigh = 500;//short delay for gripper to close
-	unsigned int timeToGo = 5000;//time it takes to move to
+	unsigned int timeToGo = 2500;//time it takes to move to
 
 	double theta1 = 0;//declare we are using two doubles for out working theta values
 	double theta2 = 0;
@@ -41,13 +41,15 @@ int main(void){
 
 	setServo(0,0); //set the conveyor to move forward, stay like that for duration
 	setServo(1,255);  //set the gripper to open initially
+	stopMotors();
 
 	while(1){
+
 
 		switch(state){//keep in state format, easier to troubleshoot and track flow
 
 		case 0://Basically poll IR for new information, compare when recieved
-				gotoAngles(waitTheta1,(waitTheta2+15));
+//				gotoAngles(waitTheta1,(waitTheta2+15));
 				if(getRange() != 42){//while printing code 42, do nothing
 					state = 1;
 					done = 0;//make sure important variables are in correct standing
@@ -72,6 +74,7 @@ int main(void){
 
 			if(tot_overflow > 2){//100Hz PID loop
 				gotoAngles((int)theta1,(int)theta2);
+				tot_overflow = 0;
 			}
 
 			if(done){//if the block IS done blocking the sensor,
@@ -89,7 +92,7 @@ int main(void){
 
 		case 2://Now wait for block to be in place, go to a starting position.
 			if(tot_overflow>2){//PID loop
-			gotoAngles(waitTheta1,(waitTheta2+15));//holding position
+			gotoAngles((waitTheta1+15),(waitTheta2));//holding position
 			tot_overflow = 0;//reset PID overflow loop
 
 				if(timeCycles < timeToGrip){//check if enough time has elapsed
@@ -106,11 +109,12 @@ int main(void){
 
 		case 3://Go to the configuration, and then...
 			if(tot_overflow>2){//PID timed loop.
-			gotoAngles(waitTheta1,waitTheta2);//Move to pick up configuration
+			gotoAngles(waitTheta1,waitTheta2-5);//Move to pick up configuration
+			tot_overflow = 0;
 			}
 
 			//continuation condition, and initialization
-			if(potAngle(3) == waitTheta2){//check if we are at the angle necessary
+			if(potAngle(2) == waitTheta1){//check if we are at the angle necessary
 				state = 4;//set sail for the next state
 				stopMotors();//stop the motors from twitching (may remove)
 				setServo(1,255);//pinch the block
@@ -179,6 +183,10 @@ int main(void){
 
 		case 8://Position of Light Block
 			printf("Light BLock\r\n");
+
+			while(timeCycles < timeToGo){//While moving to position
+			if(tot_overflow>2){gotoAngles(45,-90);timeCycles++;}//Operate PID at 100Hz
+			}
 			state = 9;//Move to dropping case.
 			break;
 
