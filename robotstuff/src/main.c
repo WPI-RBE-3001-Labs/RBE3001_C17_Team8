@@ -51,7 +51,6 @@ int main(void){
 		switch(state){//keep in state format, easier to troubleshoot and track flow
 
 		case 0://Basically poll IR for new information, compare when recieved
-//				gotoAngles(waitTheta1,(waitTheta2+15));
 				if(getRange() != 42){//while printing code 42, do nothing
 					state = 1;//move to next state
 					done = 0;//make sure important variables are in correct standing
