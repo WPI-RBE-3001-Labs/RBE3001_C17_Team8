@@ -138,3 +138,22 @@ int readThatAmperage(int link){
 //p = getPos(potAngle(2), potAngle(3));
 //printf("%f, %f\r\n",*(p+0), *(p+1));// Code that publishes to matlab
 
+//printf("%d,%d\r\n",pos1,pos2);
+////printf("%d\r\n",getRange());
+//if(getCharDebug() == 's'){
+//	stopMotors();
+//	printf("recived s\n\r");
+//pos1 = (getCharDebug()-48)*10 +(getCharDebug()-48);
+//pos2 = (getCharDebug()-48)*10 +(getCharDebug()-48);
+//}
+//
+//char notThere = 1;//declare variable to wait for movement to position
+//while(notThere){//while the variable is true, the arm is not there
+//	if(tot_overflow > 2){//PID at 100 Hz
+//	gotoAngles(pos1,pos2);//move to weighing position
+//		if((potAngle(2) == pos1) && (potAngle(3) == pos2)){//check if there
+//			notThere=0;//if it IS there, the it is not NOT there 8^)
+//		}
+//	}
+//}
+//stopMotors();
